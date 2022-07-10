@@ -1,0 +1,52 @@
+<html>
+    <body bgcolor="pink"> 
+        <h1>Registered User Login</h1>
+       <font size=5>
+        <form action="connect.php" method="post">
+           Enter Username: <input type="text" name="txt" maxlength="20"/><br><br>
+           Enter Password: <input type="password" name="pass"/><br><br>
+           <button type="button"><a href="index.html">Login</a></button><br>
+         </form>  
+       </font>
+    </body>
+</html>
+
+
+
+______________________________________________________________
+<?php
+	$firstName = $_POST['userName'];
+	$password = $_POST['password'];
+
+	// Database connection
+	$conn = new mysqli('localhost','root','project');
+	if($conn->connect_error){
+		echo "$conn->connect_error";
+		die("Connection Failed : ". $conn->connect_error);
+	} else {
+		$stmt = $conn->prepare("insert into registration(userName, password) values(?, ?)");
+		$stmt->bind_param("ss", $userName, $password);
+		$execval = $stmt->execute();
+		echo $execval;
+		echo "Successful login...";
+		$stmt->close();
+		$conn->close();
+	}
+?>
+
+
+
+_______________________didi code_________________________
+<?php
+/* Attempt MySQL server connection. Assuming you are running MySQL
+server with default setting (user 'root' with no password) */
+$link = mysqli_connect("localhost", "root", "");
+ 
+// Check connection
+if($link === false){
+    die("ERROR: Could not connect. " . mysqli_connect_error());
+}
+ 
+// Print host information
+echo "Connect Successfully. Host info: " . mysqli_get_host_info($link);
+?>
